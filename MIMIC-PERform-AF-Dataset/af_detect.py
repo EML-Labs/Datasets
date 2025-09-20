@@ -91,13 +91,13 @@ if __name__ == "__main__":
     writer = csv.DictWriter(file, fieldnames=["file_name", "detected_time_segment", "af_detected", "normalized_rmssd", "cv", "pnn50"])
     writer.writeheader()
 
-    csv_files = [f for f in os.listdir(NON_AF_FOLDER) if f.endswith('.csv')]
+    csv_files = [f for f in os.listdir(AF_FOLDER) if f.endswith('.csv')]
     csv_files.sort()
     segment_length = SAMPLING_RATE * 30 
     overlapping_length = SAMPLING_RATE * 5
 
     for csv_file in tqdm(csv_files, desc="Processing CSV files"):
-        csv_data = read_csv(os.path.join(NON_AF_FOLDER, csv_file))
+        csv_data = read_csv(os.path.join(AF_FOLDER, csv_file))
         ppg_data = get_ppg_data(csv_data)
         af_detected_ = False
         for start in range(0, len(ppg_data) - segment_length, overlapping_length):
